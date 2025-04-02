@@ -5,15 +5,21 @@ import bcrypt from "bcryptjs"
 
 export const register = async (req, res) => {
     try {
-
         const { username, email, password } = req.body
+
+        if (!username || !email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Please provide all required fields"
+            })
+        }
 
         await connectToDatabase()
 
-        const user = User.find({ email })
+        const existingUser = await User.findOne({ email })
 
-        if (user) {
-            res.status(400).json({
+        if (existingUser) {
+            return res.status(400).json({
                 success: false,
                 message: "User already exists. Please login or use another email"
             })
@@ -22,18 +28,14 @@ export const register = async (req, res) => {
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt)
 
-        const newUser = User.create({ username, email, password: hashedPassword })
+        const newUser = await User.create({ username, email, password: hashedPassword })
 
         const token = jwt.sign({ email, user: newUser._id }, process.env.JWT_SECRET)
 
-        req.cookie("token", token)
-
-        if (!newUser) {
-            res.status(400).json({
-                success: false,
-                message: "Error creating user"
-            })
-        }
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production"
+        })
 
         return res.status(201).json({
             success: true,

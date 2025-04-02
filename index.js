@@ -1,8 +1,14 @@
-const express = require('express')
+import express from 'express'
+import { config } from "dotenv"
+import authRouter from "./routers/auth.router.js"
+
+config()
 
 const app = express()
 
-const PORT = 3000
+app.use('/api/auth', authRouter)
+
+const PORT = process.env.PORT
 
 app.get('/', (req, res) => {
     res.send("Hello there!")

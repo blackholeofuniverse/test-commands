@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
-import { User } from '../../models/user.model.js'; // Adjust the path as needed
+import bcrypt from 'bcryptjs';
+import User from '../../models/user.model.js'; // Adjust the path as needed
 
 export const login = async (req, res) => {
     try {
@@ -46,8 +46,8 @@ export const login = async (req, res) => {
             token,
             user: {
                 id: user._id,
+                username: user.username,
                 email: user.email,
-                name: user.name
             }
         });
 

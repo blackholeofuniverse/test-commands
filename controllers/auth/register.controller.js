@@ -37,6 +37,8 @@ export const register = async (req, res) => {
             secure: process.env.NODE_ENV === "production"
         })
 
+        res.redirect('/')
+
         return res.status(201).json({
             success: true,
             message: "User created successfully",

@@ -5,9 +5,12 @@ import protectedRoute from "../middlewares/auth.middleware.js" // Add this impor
 
 const router = express.Router()
 
+router.get('/login', (req, res) => {
+    res.json({ message: "You can login!" })
+})
 // Public routes
-router.get('/register', register)
-router.get('/login', login)
+router.post('/register', register)
+router.post('/login', login)
 
 // Protected routes
 router.get('/protected', protectedRoute, (req, res) => {

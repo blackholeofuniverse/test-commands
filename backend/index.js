@@ -3,10 +3,15 @@ import { config } from "dotenv"
 import authRouter from "./routers/auth.router.js"
 import { connectToDatabase } from './lib/db.js'
 import protectedRoute from './middlewares/auth.middleware.js'
+import cors from "cors"
 
 config()
 
 const app = express()
+
+app.use(cors({
+    origin: "http://localhost:5173",
+}))
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

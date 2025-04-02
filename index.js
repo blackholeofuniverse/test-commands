@@ -1,6 +1,7 @@
 import express from 'express'
 import { config } from "dotenv"
 import authRouter from "./routers/auth.router.js"
+import { connectToDatabase } from './lib/db.js'
 
 config()
 
@@ -14,6 +15,7 @@ app.get('/', (req, res) => {
     res.send("Hello there!")
 })
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
     console.log(`server listening on http://localhost:${PORT}`)
+    await connectToDatabase()
 })

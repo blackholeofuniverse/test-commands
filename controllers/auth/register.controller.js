@@ -1,4 +1,4 @@
-import { connectToDatabase } from "../../lib/db"
+import { connectToDatabase } from "../../lib/db.js"
 import User from "../../models/user.model.js"
 import jwt from "jsonwebtoken"
 import bcrypt from "bcryptjs"
